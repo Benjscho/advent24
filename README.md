@@ -19,3 +19,16 @@ nicer to iterate on common stuff. More parsing utils.
 Also to figure out is how to split these day by day. I'm not sure what
 the standard dune project formatting is like.
 
+## Day 2
+
+These first few days really feel like shaking the cobwebs out in the stage
+of getting to know a language. Yesterday I was figuring out just how to
+get off the ground, now it's how to make that repeatable and workable 
+throughout the month.
+
+Today I:
+- figured out adding different binaries
+- figured out writing my own library utils for some common parsing tasks 
+    I'm going to need. 
+- figured out how to easily debug print items 
+- figured out recursive fns with pattern matching for logic

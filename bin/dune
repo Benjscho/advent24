@@ -1,4 +1,6 @@
 (executables
  (names day1 day2)
  (public_names day1 day2)
- (libraries unix advent24))
+ (preprocess
+  (pps ppx_deriving.show))
+ (libraries unix advent24 ppx_deriving.runtime))

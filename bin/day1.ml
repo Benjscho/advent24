@@ -11,7 +11,7 @@ Problem 1:
 
 
 let parse_input str =
-    let lines = String.split_on_char '\n' str in 
+  let lines = String.split_on_char '\n' str in 
   let non_empty_lines = List.filter (fun line -> String.trim line <> "") lines in
     let parse_line str = 
           Scanf.sscanf str "%d %d" (fun a b -> (a, b))

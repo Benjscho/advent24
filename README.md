@@ -40,3 +40,11 @@ part b:
   painful, and there's probably much cleaner approaches. 
 
   I also need to work on the debugging more.
+
+## Day 3
+
+Regexes! Today wasn't that hard, mainly figuring out the regexes. The 
+regex handling is a little funny in OCaml, this seems to be a pattern to
+attach some kind of state to a module, e.g., where you search forward
+and then use the string module to identify the matched group, or find
+the match end. I'm curious how it works. 

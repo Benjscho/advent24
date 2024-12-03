@@ -32,3 +32,11 @@ Today I:
     I'm going to need. 
 - figured out how to easily debug print items 
 - figured out recursive fns with pattern matching for logic
+
+part b:
+- Wow that was much more painful than I expected. It took me a long time to
+  figure out which elements needed to be skipped and why. In the end trying
+  to skip the previous, current, and next worked. This felt a lot more 
+  painful, and there's probably much cleaner approaches. 
+
+  I also need to work on the debugging more.

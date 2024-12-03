@@ -24,7 +24,7 @@ let parse_input str =
 let read_file filename =
   In_channel.with_open_text filename In_channel.input_all
 
-let file_contents = read_file "./inputs/day-2-test.txt"
+let file_contents = read_file "./inputs/day-2.txt"
 
 let levels = parse_input file_contents
 
@@ -87,39 +87,83 @@ in from outside.
 
 Oops I'm wrong! We need to add the ability to backtrack and try skipping 
 prior levels
+
+It should work by:
+- First, check if the transition is valid
+- If not, skip the next, and see if the remainder is valid. 
+- If not, return false 
+
+At the top level:
+- If the whole thing returns false, try skipping the first
 *)
 
-let rec is_safe_level_rec_b free_level level_dir curr remaining =
+let remove_at_index index lst =
+  let rec aux i acc = function
+    | [] -> List.rev acc  (* If the list is empty, return the accumulated list *)
+    | h :: t ->
+        if i = index then 
+(*
+        let () = 
+          Printf.printf "skipping: %d\n"
+            h 
+        in
+*)
+        List.rev_append acc t  (* Skip the element at the index *)
+        else aux (i + 1) (h :: acc) t  (* Keep the element and continue *)
+  in
+  aux 0 [] lst
+
+let rec is_safe_level_rec level_dir curr remaining ident =
   match remaining with
-  | [] -> true
+  (* We don't care about the ident in the true case *)
+  | [] -> (true, 0)
   | next :: xs -> 
     let (valid_level, next_dir) = match curr - next with 
-      | 0 -> (false, level_dir)
+      | 0 -> (false, Terminal)
       | x when x > 0 && x <= 3 -> (level_dir = Initial || level_dir = Descending, Descending)
       | x when x < 0 && x >= -3 -> (level_dir = Initial || level_dir = Ascending, Ascending)
-      | _ -> (false, level_dir)
+      | _ -> (false, Terminal)
     in
+(*
     let () = 
-      Printf.printf "curr: %d, next: %d, direction: %s, next_dir: %s, free_level: %b\n"
+      Printf.printf "curr: %d, next: %d, direction: %s, next_dir: %s\n"
         curr 
         next
         ([%show: level_changing] level_dir)
         ([%show: level_changing] next_dir)
-        free_level
     in
-    match valid_level with 
-    | false -> free_level && is_safe_level_rec_b false next_dir curr xs
-    | true -> is_safe_level_rec_b free_level next_dir next xs
+*)
+    if valid_level then 
+      (*Ident indicates we should skip the current, previous, and next values*)
+      is_safe_level_rec next_dir next xs (ident + 1)
+    else 
+      (false, ident)
 
-let safe_level_b level =
+let rec safe_level skipped level =
   let res = match level with
   | [] -> true 
   | first :: xs -> 
-    is_safe_level_rec_b true Initial first xs
+    let (res, bad_ident) = is_safe_level_rec Initial first xs 0 in 
+    if (not skipped && not res) then
+      let skip_prev = remove_at_index (bad_ident - 1) level in 
+      let skip_curr = remove_at_index (bad_ident) level in 
+      let skip_next = remove_at_index (bad_ident + 1) level in 
+(*
+    let () = 
+      Printf.printf "skip_index: %d\n"
+        bad_ident 
+    in
+*)
+      safe_level true skip_prev || safe_level true skip_curr || safe_level true skip_next 
+    else 
+      res
   in 
+(*
   let () = print_endline ([%show: bool] res) in 
+*)
   res
 
-let res = List.length (List.filter safe_level_b levels)
+let res = List.length (List.filter (safe_level false) levels)
 
 let () = Printf.printf "Part b: %d\n" res;;
+

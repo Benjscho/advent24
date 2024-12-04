@@ -48,3 +48,15 @@ regex handling is a little funny in OCaml, this seems to be a pattern to
 attach some kind of state to a module, e.g., where you search forward
 and then use the string module to identify the matched group, or find
 the match end. I'm curious how it works. 
+
+## Day 4 
+
+Part a was pretty simple, but part b gave me slightly more trouble. I handled 
+this one by getting multiple views over the matrix of letters, rows, columns,
+and diagonals, then searching each of those individually.
+
+For part b I was able to modify this to keep the coordinates of the middle 
+of the search, and then find where those coordinates matched up between the 
+two diagonals.
+
+It feels a bit verbose at the moment, but it works! 

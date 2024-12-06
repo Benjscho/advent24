@@ -60,3 +60,14 @@ of the search, and then find where those coordinates matched up between the
 two diagonals.
 
 It feels a bit verbose at the moment, but it works! 
+
+## Day 5
+
+This was a tricky day! I started out trying to make a complete graph, before
+topologically sorting it and validating the lines against that. But I was a bit
+stupid because I didn't realise the rules could contain cycles, and I hadn't
+defended against that. It took me a while to realise. After that I simply
+iterated over the rules and validated them against the lines.
+
+For part B, topological sorting worked a treat. Just added the nodes in the 
+line into a graph, and used the rules to sort them.
